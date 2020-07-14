@@ -7,14 +7,9 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
-import com.company.tictacapp.common.helpers.ImageColor
+import com.company.tictacapp.common.models.BitmapImage
 
 class ImageHelper(private var application: Application) {
-    companion object {
-        const val TAG = "ImageHelper"
-    }
-
     private var bitmap: Bitmap? = null
 
     fun loadImage(fileUri: Uri) {
@@ -35,15 +30,7 @@ class ImageHelper(private var application: Application) {
         }
     }
 
-    fun getColor(x: Int, y: Int) : ImageColor? {
-        return bitmap?.let {
-            return ImageColor.fromPixel(it.getPixel(x, y))
-        }
-    }
-
-    fun debugColor() {
-        getColor(100, 80)?.apply {
-            Log.d(TAG, "R $red  G $green B $blue A $alpha")
-        }
+    fun toBitmapImage() : BitmapImage {
+        return BitmapImage(bitmap = bitmap)
     }
 }

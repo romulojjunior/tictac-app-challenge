@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.company.tictacapp.common.ImageHelper
 import com.company.tictacapp.common.models.Player
 import com.company.tictacapp.common.models.PlayerType
+import com.company.tictacapp.common.usecases.AnalyzeImageUserCase
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -71,9 +72,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun displaySelectedImage(uri: Uri) {
         selectedImageView.setImageURI(uri);
+
         val imageHelper = ImageHelper(this.application)
         imageHelper.loadImage(uri);
-        imageHelper.debugColor()
+        val analyzeImageUserCase = AnalyzeImageUserCase()
+        analyzeImageUserCase.execute(imageHelper.toBitmapImage())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
