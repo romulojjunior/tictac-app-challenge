@@ -21,7 +21,6 @@ class ImageAnalyzer() {
 
 
         while (!stop && (positionX < endPointX || positionY < endPointY)) {
-            bitmapImage.debugColor(positionX, positionY)
             val imageColor = bitmapImage.getColor(positionX, positionY)
 
             if (imageColor != null) {

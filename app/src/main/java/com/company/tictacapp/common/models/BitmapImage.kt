@@ -7,7 +7,7 @@ class BitmapImage(var bitmap: Bitmap?) {
 
     fun getColor(x: Int, y: Int) : ImageColor? {
         return bitmap?.let {
-            return ImageColor.fromPixel(it.getPixel(x, y))
+            return ImageColor().withPixel(it.getPixel(x, y))
         }
     }
 

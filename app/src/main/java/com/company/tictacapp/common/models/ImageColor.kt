@@ -4,15 +4,12 @@ import android.graphics.Color
 
 class ImageColor(var red: Int = 0, var green: Int = 0, var blue: Int = 0, var alpha: Int = 0) {
 
-    companion object {
-        fun fromPixel(pixel: Int) : ImageColor {
-            return ImageColor(
-                red = Color.red(pixel),
-                green = Color.green(pixel),
-                blue = Color.blue(pixel),
-                alpha = Color.alpha(pixel)
-            )
-        }
+    fun withPixel(pixel: Int) : ImageColor {
+        red = Color.red(pixel)
+        green = Color.green(pixel)
+        blue = Color.blue(pixel)
+        alpha = Color.alpha(pixel)
+        return this
     }
 
     fun compareColor(red: Int, green: Int, blue: Int, alpha:Int = 0) : Boolean {
