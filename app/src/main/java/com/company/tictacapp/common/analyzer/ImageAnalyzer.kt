@@ -1,9 +1,7 @@
-package com.company.tictacapp.analyzer
+package com.company.tictacapp.common.analyzer
 
 import com.company.tictacapp.common.models.BitmapImage
-import com.company.tictacapp.common.models.ImageColor
 import com.company.tictacapp.common.models.PlayerChoice
-import com.company.tictacapp.common.models.PlayerType
 
 // board details
 // w 600 px
