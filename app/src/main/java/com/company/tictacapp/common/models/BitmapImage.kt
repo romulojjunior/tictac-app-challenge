@@ -2,7 +2,6 @@ package com.company.tictacapp.common.models
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.company.tictacapp.common.helpers.ImageColor
 
 class BitmapImage(var bitmap: Bitmap?) {
 

@@ -8,11 +8,12 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import com.company.tictacapp.common.ImageHelper
+import com.company.tictacapp.common.helpers.ImageHelper
 import com.company.tictacapp.common.models.Player
 import com.company.tictacapp.common.models.PlayerType
 import com.company.tictacapp.common.usecases.AnalyzeImageUserCase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,11 +73,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun displaySelectedImage(uri: Uri) {
         selectedImageView.setImageURI(uri);
-
-        val imageHelper = ImageHelper(this.application)
-        imageHelper.loadImage(uri);
-        val analyzeImageUserCase = AnalyzeImageUserCase()
-        analyzeImageUserCase.execute(imageHelper.toBitmapImage())
+        val job = GlobalScope.launch(Dispatchers.IO) {
+            async {
+                val imageHelper = ImageHelper(application)
+                imageHelper.loadImage(uri);
+                val analyzeImageUserCase = AnalyzeImageUserCase()
+                val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
+                println(ticTocMapping) // TODO: remove it
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {

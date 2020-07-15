@@ -1,4 +1,4 @@
-package com.company.tictacapp.common
+package com.company.tictacapp.common.helpers
 
 import android.annotation.SuppressLint
 import android.app.Application
