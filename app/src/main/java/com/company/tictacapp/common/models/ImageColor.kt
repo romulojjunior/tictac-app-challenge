@@ -2,7 +2,7 @@ package com.company.tictacapp.common.models
 
 import android.graphics.Color
 
-class ImageColor(var red: Int, var green: Int, var blue: Int, var alpha:Int = 0) {
+class ImageColor(var red: Int = 0, var green: Int = 0, var blue: Int = 0, var alpha: Int = 0) {
 
     companion object {
         fun fromPixel(pixel: Int) : ImageColor {

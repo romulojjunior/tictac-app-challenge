@@ -20,7 +20,7 @@ class ImageAnalyzer() {
         var playerChoice: PlayerChoice? = null
 
 
-        while (!stop && (positionX <= endPointX || positionY <= endPointY)) {
+        while (!stop && (positionX < endPointX || positionY < endPointY)) {
             bitmapImage.debugColor(positionX, positionY)
             val imageColor = bitmapImage.getColor(positionX, positionY)
 
@@ -34,12 +34,11 @@ class ImageAnalyzer() {
                 }
             }
 
-            if (positionX <= endPointX) positionX += 1;
+            if (positionX < endPointX) positionX += 1;
 
-            if (positionY <= endPointY) positionY += 1;
+            if (positionY < endPointY) positionY += 1;
 
             if (positionX == endPointX && positionY == endPointY)  stop = true;
-
         }
 
         return playerChoice
