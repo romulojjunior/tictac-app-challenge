@@ -17,11 +17,10 @@ class GameAnalyzer(
     fun findBestPosition(ticTacMapping: TicTacMapping) : Array<Int> {
         var bestScore = Int.MIN_VALUE
         var bestPosition: Array<Int> = arrayOf()
-
+        ticTacMapping.debug()
         runGame(ticTacMapping) { i, j ->
             if (ticTacMapping.isPositionAvailable(i, j)) {
                 ticTacMapping.setPlayerChoice(i,j, aiUserPlayer)
-                ticTacMapping.debug()
                 val score = minMaxAlgorithm(ticTacMapping, deep = 0, isMax = false, playerChoice = opponentPlayer)
                 ticTacMapping.setPlayerChoice(i,j, null)
 
