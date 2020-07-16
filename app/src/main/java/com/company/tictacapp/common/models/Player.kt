@@ -1,6 +1,6 @@
 package com.company.tictacapp.common.models
 enum class PlayerType {
-    x, o
+    x, o, nobody
 }
 
 enum class PlayerChoice {

@@ -2,11 +2,11 @@ package com.company.tictacapp.common.usecases
 
 import com.company.tictacapp.common.analyzer.ImageAnalyzer
 import com.company.tictacapp.common.models.BitmapImage
-import com.company.tictacapp.common.models.TicTocMapping
+import com.company.tictacapp.common.models.TicTacMapping
 
 
-class AnalyzeImageUserCase(var imageAnalyzer: ImageAnalyzer = ImageAnalyzer()) : UseCaseBase<BitmapImage, TicTocMapping>() {
-    override fun execute(param: BitmapImage): TicTocMapping {
+class AnalyzeImageUserCase(var imageAnalyzer: ImageAnalyzer = ImageAnalyzer()) : UseCaseBase<BitmapImage, TicTacMapping>() {
+    override fun execute(param: BitmapImage): TicTacMapping {
         val playerChoice11 = imageAnalyzer.findPlayerChoice(param, startPointX = 100, startPointY = 0, endPointX = 100, endPointY = 190)
         val playerChoice12 = imageAnalyzer.findPlayerChoice(param, startPointX = 300, startPointY = 0, endPointX = 300, endPointY = 190)
         val playerChoice13 = imageAnalyzer.findPlayerChoice(param, startPointX = 500, startPointY = 0, endPointX = 500, endPointY = 190)
@@ -19,10 +19,11 @@ class AnalyzeImageUserCase(var imageAnalyzer: ImageAnalyzer = ImageAnalyzer()) :
         val playerChoice32 = imageAnalyzer.findPlayerChoice(param, startPointX = 300, startPointY = 400, endPointX = 300, endPointY = 499)
         val playerChoice33 = imageAnalyzer.findPlayerChoice(param, startPointX = 500, startPointY = 400, endPointX = 500, endPointY = 499)
 
-        return TicTocMapping(matrix = listOf(
-            listOf(playerChoice11, playerChoice12, playerChoice13).toList(),
-            listOf(playerChoice21, playerChoice22, playerChoice23).toList(),
-            listOf(playerChoice31, playerChoice32, playerChoice33).toList()
+        return TicTacMapping(
+            matrix = arrayListOf(
+                arrayListOf(playerChoice11, playerChoice12, playerChoice13),
+                arrayListOf(playerChoice21, playerChoice22, playerChoice23),
+                arrayListOf(playerChoice31, playerChoice32, playerChoice33)
         ))
     }
 }
