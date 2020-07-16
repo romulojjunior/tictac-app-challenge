@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.company.tictacapp.common.analyzer.GameAnalyzer
 import com.company.tictacapp.common.helpers.ImageHelper
 import com.company.tictacapp.common.models.Player
 import com.company.tictacapp.common.models.PlayerType
@@ -18,7 +20,8 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var players : List<String>
-    var currentPlayer: Player? = null
+    var currentPlayerType: PlayerType? = null
+
 
     companion object {
         const val TAG = "TicTacApp"
@@ -30,18 +33,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         loadPlayerList()
-        loadScreenshotButton()
         loadPlayerSpinner()
     }
 
     private fun loadPlayerList() {
         players = listOf(getString(R.string.choose_your_player), "Player X", "Player O")
-    }
-
-    private fun loadScreenshotButton() {
-        screenshotButton?.setOnClickListener {
-            openGallery()
-        }
     }
 
     private fun loadPlayerSpinner() {
@@ -52,11 +48,21 @@ class MainActivity : AppCompatActivity() {
         playerSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?,  position: Int,  id: Long) {
-                currentPlayer = when (position) {
-                    1 -> Player(type = PlayerType.x)
-                    2 -> Player(type = PlayerType.x)
-                    else -> null
+                when (position) {
+                    1 -> {
+                        currentPlayerType = PlayerType.x
+                        openGallery()
+                    }
+                    2 -> {
+                        currentPlayerType = PlayerType.o
+                        openGallery()
+                    }
+                    else -> {
+                        currentPlayerType = null
+                        selectedImageView.setImageBitmap(null)
+                    }
                 }
+
                 Log.d(TAG, "Current player: ${players[position]}")
             }
         }
@@ -73,13 +79,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun displaySelectedImage(uri: Uri) {
         selectedImageView.setImageURI(uri);
-        val job = GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.IO) {
             async {
                 val imageHelper = ImageHelper(application)
                 imageHelper.loadImage(uri);
                 val analyzeImageUserCase = AnalyzeImageUserCase()
                 val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
                 println(ticTocMapping) // TODO: remove it
+
+                val gameAnalyzer = GameAnalyzer()
+                var result = gameAnalyzer.findBestPosition(ticTocMapping)
+                println(result[0])
+                println(result[1])
+
+                runOnUiThread {
+                    Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
