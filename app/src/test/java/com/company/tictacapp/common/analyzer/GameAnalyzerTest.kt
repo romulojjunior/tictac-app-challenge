@@ -66,4 +66,55 @@ class GameAnalyzerTest {
             assertEquals(i, result[index])
         }
     }
+
+    @Test
+    fun gameTest04() {
+        val expected = arrayListOf(2, 2) // x, y
+        val ticTacMapping = TicTacMapping(
+            matrix = arrayListOf<ArrayList<PlayerChoice?>>(
+                arrayListOf(PlayerChoice.o, null, PlayerChoice.x),
+                arrayListOf(null, PlayerChoice.o, null),
+                arrayListOf<PlayerChoice?>(null, null, null)
+            ))
+
+        val result = gameAnalyzer.findBestPosition(ticTacMapping)
+
+        expected.forEachIndexed { index, i ->
+            assertEquals(i, result[index])
+        }
+    }
+
+    @Test
+    fun gameTest05() {
+        val expected = arrayListOf(1, 1) // x, y
+        val ticTacMapping = TicTacMapping(
+            matrix = arrayListOf<ArrayList<PlayerChoice?>>(
+                arrayListOf(PlayerChoice.o, null, null),
+                arrayListOf(null, null, null),
+                arrayListOf<PlayerChoice?>(null, null, null)
+            ))
+
+        val result = gameAnalyzer.findBestPosition(ticTacMapping)
+
+        expected.forEachIndexed { index, i ->
+            assertEquals(i, result[index])
+        }
+    }
+
+    @Test
+    fun gameTestRandom() {
+        val expected = arrayListOf(2, 1) // x, y
+        val ticTacMapping = TicTacMapping(
+            matrix = arrayListOf<ArrayList<PlayerChoice?>>(
+                arrayListOf(PlayerChoice.o, PlayerChoice.x, PlayerChoice.o),
+                arrayListOf(PlayerChoice.o, PlayerChoice.x, PlayerChoice.x),
+                arrayListOf<PlayerChoice?>(null, null, PlayerChoice.o)
+            ))
+
+        val result = gameAnalyzer.findBestPosition(ticTacMapping)
+
+        expected.forEachIndexed { index, i ->
+            assertEquals(i, result[index])
+        }
+    }
 }

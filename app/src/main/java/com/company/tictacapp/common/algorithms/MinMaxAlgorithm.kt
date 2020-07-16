@@ -7,8 +7,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun minMaxAlgorithm(ticTacMapping: TicTacMapping, deep: Int, isMax: Boolean, playerChoice: PlayerChoice?): Int {
-    println(playerChoice)
-    ticTacMapping.debug()
+    println(playerChoice) //TODO: remove this line
+    ticTacMapping.debug() //TODO: remove this line
     val winner = ticTacMapping.checkWinner()
 
     if (winner != null) {
