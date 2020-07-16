@@ -11,8 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.company.tictacapp.common.analyzer.GameAnalyzer
 import com.company.tictacapp.common.helpers.ImageHelper
-import com.company.tictacapp.common.models.Player
-import com.company.tictacapp.common.models.PlayerType
+import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.usecases.AnalyzeImageUserCase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -20,7 +19,7 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var players : List<String>
-    var currentPlayerType: PlayerType? = null
+    var currentPlayerChoice: PlayerChoice? = null
 
 
     companion object {
@@ -50,15 +49,15 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?,  position: Int,  id: Long) {
                 when (position) {
                     1 -> {
-                        currentPlayerType = PlayerType.x
+                        currentPlayerChoice = PlayerChoice.x
                         openGallery()
                     }
                     2 -> {
-                        currentPlayerType = PlayerType.o
+                        currentPlayerChoice = PlayerChoice.o
                         openGallery()
                     }
                     else -> {
-                        currentPlayerType = null
+                        currentPlayerChoice = null
                         selectedImageView.setImageBitmap(null)
                     }
                 }
@@ -85,12 +84,8 @@ class MainActivity : AppCompatActivity() {
                 imageHelper.loadImage(uri);
                 val analyzeImageUserCase = AnalyzeImageUserCase()
                 val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
-                println(ticTocMapping) // TODO: remove it
-
                 val gameAnalyzer = GameAnalyzer()
-                var result = gameAnalyzer.findBestPosition(ticTocMapping)
-                println(result[0])
-                println(result[1])
+                val result = gameAnalyzer.findBestPosition(ticTocMapping)
 
                 runOnUiThread {
                     Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()

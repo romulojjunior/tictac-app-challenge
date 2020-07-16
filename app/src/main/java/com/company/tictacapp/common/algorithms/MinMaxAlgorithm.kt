@@ -1,7 +1,6 @@
 package com.company.tictacapp.common.algorithms
 
 import com.company.tictacapp.common.models.PlayerChoice
-import com.company.tictacapp.common.models.PlayerType
 import com.company.tictacapp.common.models.TicTacMapping
 import kotlin.math.max
 import kotlin.math.min
@@ -14,9 +13,9 @@ fun minMaxAlgorithm(ticTacMapping: TicTacMapping, deep: Int, isMax: Boolean, pla
 
     if (winner != null) {
        return when(winner) {
-            PlayerType.x -> return 10
-            PlayerType.o -> return -10
-            PlayerType.nobody -> 0
+            PlayerChoice.x -> return 10
+           PlayerChoice.o -> return -10
+           PlayerChoice.none -> 0
         }
     }
 

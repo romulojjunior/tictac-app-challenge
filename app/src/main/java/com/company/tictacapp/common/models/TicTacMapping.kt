@@ -25,10 +25,9 @@ class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListO
         return false
     }
 
-    fun checkWinner(): PlayerType? {
+    fun checkWinner(): PlayerChoice? {
         val matrixSize = matrix.size -1
         var playerChoice: PlayerChoice? = null
-        var playerType: PlayerType? = null
 
         if (compareDiagonalLeft()) {
             playerChoice = matrix[0][0]
@@ -38,7 +37,7 @@ class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListO
         }
 
         if (checkTie()) {
-            playerType = PlayerType.nobody
+            playerChoice = PlayerChoice.none
         }
 
         for(index in 0..matrixSize) {
@@ -47,12 +46,7 @@ class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListO
             if (compareColumn(index)) playerChoice = matrix[0][index]
         }
 
-        return playerType ?:
-            if (playerChoice != null){
-                if (playerChoice == PlayerChoice.x) PlayerType.x else PlayerType.o
-            } else {
-                null
-            }
+        return playerChoice
     }
 
     private fun compareRow(number: Int) : Boolean {
