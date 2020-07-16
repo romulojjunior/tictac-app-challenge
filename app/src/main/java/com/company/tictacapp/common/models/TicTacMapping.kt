@@ -1,6 +1,8 @@
 package com.company.tictacapp.common.models
 
 class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListOf()) {
+    var aiUserPlayer: PlayerChoice = PlayerChoice.x
+    var opponentPlayer: PlayerChoice = PlayerChoice.o
 
     fun getPlayerChoiceByPosition(i: Int, j: Int): PlayerChoice? {
         if (matrix.count() > i && matrix[i].count() > j) {

@@ -9,10 +9,7 @@ import kotlin.math.max
 // PlayerChoice.o = -10
 // Tie = 0
 
-class GameAnalyzer(
-    private val aiUserPlayer: PlayerChoice = PlayerChoice.x,
-    private val opponentPlayer: PlayerChoice = PlayerChoice.o
-    ) {
+class GameAnalyzer {
 
     fun findBestPosition(ticTacMapping: TicTacMapping) : Array<Int> {
         var bestScore = Int.MIN_VALUE
@@ -20,8 +17,8 @@ class GameAnalyzer(
         ticTacMapping.debug()
         runGame(ticTacMapping) { i, j ->
             if (ticTacMapping.isPositionAvailable(i, j)) {
-                ticTacMapping.setPlayerChoice(i,j, aiUserPlayer)
-                val score = minMaxAlgorithm(ticTacMapping, deep = 0, isMax = false, playerChoice = opponentPlayer)
+                ticTacMapping.setPlayerChoice(i,j, ticTacMapping.aiUserPlayer)
+                val score = minMaxAlgorithm(ticTacMapping, deep = 0, isMax = false, playerChoice = ticTacMapping.opponentPlayer)
                 ticTacMapping.setPlayerChoice(i,j, null)
 
                 if (score > bestScore) {

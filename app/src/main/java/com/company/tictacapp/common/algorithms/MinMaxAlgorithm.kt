@@ -13,8 +13,8 @@ fun minMaxAlgorithm(ticTacMapping: TicTacMapping, deep: Int, isMax: Boolean, pla
 
     if (winner != null) {
        return when(winner) {
-            PlayerChoice.x -> return 10
-           PlayerChoice.o -> return -10
+            PlayerChoice.x -> return if (ticTacMapping.aiUserPlayer == PlayerChoice.x) 10 else -10
+           PlayerChoice.o -> return if (ticTacMapping.aiUserPlayer == PlayerChoice.x) -10 else 10
            PlayerChoice.none -> 0
         }
     }

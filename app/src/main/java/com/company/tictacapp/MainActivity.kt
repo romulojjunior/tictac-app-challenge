@@ -85,6 +85,15 @@ class MainActivity : AppCompatActivity() {
                 val analyzeImageUserCase = AnalyzeImageUserCase()
                 val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
                 val gameAnalyzer = GameAnalyzer()
+
+                if (currentPlayerChoice == PlayerChoice.x) {
+                    ticTocMapping.aiUserPlayer = PlayerChoice.x
+                    ticTocMapping.opponentPlayer = PlayerChoice.o
+                } else {
+                    ticTocMapping.aiUserPlayer = PlayerChoice.o
+                    ticTocMapping.opponentPlayer = PlayerChoice.x
+                }
+
                 val result = gameAnalyzer.findBestPosition(ticTocMapping)
 
                 runOnUiThread {
