@@ -97,18 +97,9 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
                 onSelectedPosition(position)
             }
-
-            invalidate()
-//            canvas?.apply {
-//                val paintGreen = Paint()
-//                paintGreen.color = Color.MAGENTA
-//                paintGreen.strokeWidth = 10f
-//                val radius = 20f
-//                drawCircle(touchX!!, touchY!!, radius, paintGreen)
-//            }
-
             touchX = null
             touchY = null
+            invalidate()
         }
     }
 

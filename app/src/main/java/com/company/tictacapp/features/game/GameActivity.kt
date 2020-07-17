@@ -48,25 +48,37 @@ class GameActivity : AppCompatActivity() {
     private fun loadGameView(tictacMapping: TicTacMapping) {
         gameView.initializerBoard(tictacMapping)
         gameView.onSelectedPosition = { position ->
-            Toast.makeText(application, "Selected position: (${position.i}, ${position.j})", Toast.LENGTH_SHORT).show()
             tictacMapping.nextPlayerTurn()
             setPlayerTurnText(tictacMapping.currentPlayer)
+            analyzeGame(tictacMapping)
         }
     }
 
     fun setPlayerTurnText(playerChoice: PlayerChoice) {
-        playerTurnTextView.text = ("Turn: ${playerChoice}")
+        playerTurnTextView.text = ("Turn: $playerChoice")
 
     }
 
     private fun analyzeGame(tictacMapping: TicTacMapping) {
+
+
         GlobalScope.launch(Dispatchers.IO) {
             async {
+                val winner = tictacMapping.checkWinner()
+                if (winner != null) {
+                    runOnUiThread {
+                        Toast.makeText(application, "Winner $winner", Toast.LENGTH_LONG).show()
+                    }
+                }
+
                 val gameAnalyzer = GameAnalyzer()
                 val result = gameAnalyzer.findBestPosition(tictacMapping)
                 runOnUiThread {
-                    gameView.recommendBestPositionToUser(result[0],result[1])
-                    Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()
+                    if (result.isNotEmpty()) {
+                        gameView.recommendBestPositionToUser(result[0],result[1])
+                    } else {
+                        Toast.makeText(application, "GameOver", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

@@ -106,6 +106,14 @@ class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListO
         return isTie
     }
 
+    fun clearState() {
+        for(i in 0..2) {
+            for (j in 0..2) {
+                matrix[i][j] == null
+            }
+        }
+    }
+
     override fun toString(): String {
         return """
         ${matrix[0][0]} | ${matrix[0][1]} | ${matrix[0][2]} |
