@@ -2,6 +2,7 @@ package com.company.tictacapp.features.game
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -32,9 +33,15 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         loadParams()
-        setPlayerTurnText(tictacMapping.aiUserPlayer)
+        updatePlayerNameText(tictacMapping.aiUserPlayer)
+        updatePlayerTurnText(tictacMapping.aiUserPlayer)
         loadGameView(tictacMapping)
         analyzeGame(tictacMapping)
+    }
+
+    override fun onDestroy() {
+        tictacMapping.clearState()
+        super.onDestroy()
     }
 
     private fun loadParams() {
@@ -49,13 +56,30 @@ class GameActivity : AppCompatActivity() {
         gameView.initializerBoard(tictacMapping)
         gameView.onSelectedPosition = { position ->
             tictacMapping.nextPlayerTurn()
-            setPlayerTurnText(tictacMapping.currentPlayer)
+            updatePlayerTurnText(tictacMapping.currentPlayer)
             analyzeGame(tictacMapping)
         }
     }
 
-    fun setPlayerTurnText(playerChoice: PlayerChoice) {
-        playerTurnTextView.text = ("Turn: $playerChoice")
+    private fun updatePlayerNameText(playerChoice: PlayerChoice) {
+
+        if (playerChoice == PlayerChoice.x) {
+            playerNameTextView.text = ("You are red (x)")
+            playerNameTextView.setTextColor(Color.RED)
+        } else {
+            playerNameTextView.text = ("You are blue (o)")
+            playerNameTextView.setTextColor(Color.BLUE)
+        }
+    }
+
+    private fun updatePlayerTurnText(playerChoice: PlayerChoice) {
+        if (playerChoice == PlayerChoice.x) {
+            playerTurnTextView.text = ("Red round (x)")
+            playerTurnTextView.setTextColor(Color.RED)
+        } else {
+            playerTurnTextView.text = ("Blue round (o)")
+            playerTurnTextView.setTextColor(Color.BLUE)
+        }
 
     }
 
