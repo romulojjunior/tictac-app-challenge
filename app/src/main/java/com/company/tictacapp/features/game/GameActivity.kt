@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.company.tictacapp.R
 import com.company.tictacapp.common.analyzer.GameAnalyzer
+import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.models.TicTacMapping
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         loadParams()
+        setPlayerTurnText(tictacMapping.aiUserPlayer)
         loadGameView(tictacMapping)
         analyzeGame(tictacMapping)
     }
@@ -47,11 +49,17 @@ class GameActivity : AppCompatActivity() {
         gameView.initializerBoard(tictacMapping)
         gameView.onSelectedPosition = { position ->
             Toast.makeText(application, "Selected position: (${position.i}, ${position.j})", Toast.LENGTH_SHORT).show()
+            tictacMapping.nextPlayerTurn()
+            setPlayerTurnText(tictacMapping.currentPlayer)
         }
     }
 
+    fun setPlayerTurnText(playerChoice: PlayerChoice) {
+        playerTurnTextView.text = ("Turn: ${playerChoice}")
+
+    }
+
     private fun analyzeGame(tictacMapping: TicTacMapping) {
-        playerTurnTextView.text = ("Turn: ${tictacMapping.aiUserPlayer}")
         GlobalScope.launch(Dispatchers.IO) {
             async {
                 val gameAnalyzer = GameAnalyzer()

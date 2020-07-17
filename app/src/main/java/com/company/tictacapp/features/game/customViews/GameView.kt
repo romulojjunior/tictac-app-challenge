@@ -87,19 +87,25 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private fun renderTouchedArea(canvas: Canvas?) {
 
         if (touchX != null && touchY != null) {
-            val gameViewPosition = mapTouchedAreaToGamePosition(touchX!!, touchY!!)
+            mapTouchedAreaToGamePosition(touchX!!, touchY!!)?.let { position ->
+                ticTacMapping?.let { ticTacMapping ->
+                    ticTacMapping.setPlayerChoice(
+                        position.i,
+                        position.j,
+                        ticTacMapping.getCurrentPlayerChoice())
+                }
 
-            if (gameViewPosition != null) {
-                onSelectedPosition(gameViewPosition)
+                onSelectedPosition(position)
             }
 
-            canvas?.apply {
-                val paintGreen = Paint()
-                paintGreen.color = Color.MAGENTA
-                paintGreen.strokeWidth = 10f
-                val radius = 20f
-                drawCircle(touchX!!, touchY!!, radius, paintGreen)
-            }
+            invalidate()
+//            canvas?.apply {
+//                val paintGreen = Paint()
+//                paintGreen.color = Color.MAGENTA
+//                paintGreen.strokeWidth = 10f
+//                val radius = 20f
+//                drawCircle(touchX!!, touchY!!, radius, paintGreen)
+//            }
 
             touchX = null
             touchY = null

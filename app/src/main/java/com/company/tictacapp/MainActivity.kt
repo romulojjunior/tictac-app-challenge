@@ -87,9 +87,11 @@ class MainActivity : AppCompatActivity() {
                 if (currentPlayerChoice == PlayerChoice.x) {
                     ticTocMapping.aiUserPlayer = PlayerChoice.x
                     ticTocMapping.opponentPlayer = PlayerChoice.o
+                    ticTocMapping.currentPlayer = ticTocMapping.aiUserPlayer
                 } else {
                     ticTocMapping.aiUserPlayer = PlayerChoice.o
                     ticTocMapping.opponentPlayer = PlayerChoice.x
+                    ticTocMapping.currentPlayer = ticTocMapping.aiUserPlayer
                 }
 
                 runOnUiThread {

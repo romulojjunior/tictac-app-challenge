@@ -5,6 +5,23 @@ import java.io.Serializable
 class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListOf()) : Serializable {
     var aiUserPlayer: PlayerChoice = PlayerChoice.x
     var opponentPlayer: PlayerChoice = PlayerChoice.o
+    var currentPlayer: PlayerChoice = PlayerChoice.x
+
+    fun getCurrentPlayerChoice() : PlayerChoice {
+        return if (currentPlayer == PlayerChoice.x) PlayerChoice.x else PlayerChoice.o
+    }
+
+    fun nextPlayerTurn() : Boolean{
+        if (currentPlayer == PlayerChoice.x) {
+            currentPlayer = PlayerChoice.o
+            return true
+        } else if (currentPlayer == PlayerChoice.o) {
+            currentPlayer = PlayerChoice.x
+            return true
+        }
+
+        return false
+    }
 
     fun getPlayerChoiceByPosition(i: Int, j: Int): PlayerChoice? {
         if (matrix.count() > i && matrix[i].count() > j) {
