@@ -31,7 +31,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         loadParams()
-        gameView.initializerBoard(tictacMapping)
+        loadGameView(tictacMapping)
         analyzeGame(tictacMapping)
     }
 
@@ -40,6 +40,13 @@ class GameActivity : AppCompatActivity() {
             if (hasExtra(PARAM_MAPPING)) {
                 tictacMapping = getSerializableExtra(PARAM_MAPPING) as TicTacMapping
             }
+        }
+    }
+
+    private fun loadGameView(tictacMapping: TicTacMapping) {
+        gameView.initializerBoard(tictacMapping)
+        gameView.onSelectedPosition = { position ->
+            Toast.makeText(application, "Selected position: (${position.i}, ${position.j})", Toast.LENGTH_LONG).show()
         }
     }
 

@@ -19,6 +19,9 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var touchY: Float? = null
     private var bestPositionToUser: GameViewPosition? = null
 
+    // Game callbacks
+    var onSelectedPosition: (GameViewPosition) -> Unit = {}
+
     fun initializerBoard(ticTacMapping: TicTacMapping?) {
         this.ticTacMapping = ticTacMapping
         invalidate()
@@ -38,6 +41,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             paint.color = Color.GREEN
             paint.strokeWidth = 10f
             drawCircleItemByPosition(canvas, paint, i, j)
+            onSelectedPosition(GameViewPosition(-1,-1))
         }
     }
 
