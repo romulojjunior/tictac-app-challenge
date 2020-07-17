@@ -11,10 +11,13 @@ import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.models.TicTacMapping
 import kotlin.math.min
 
+class GameViewPosition(var i: Int, val j: Int)
+
 class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var ticTacMapping: TicTacMapping? = null
     private var touchX: Float? = null
     private var touchY: Float? = null
+    private var bestPositionToUser: GameViewPosition? = null
 
     fun initializerBoard(ticTacMapping: TicTacMapping?) {
         this.ticTacMapping = ticTacMapping
@@ -25,19 +28,22 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         super.onDraw(canvas)
         renderBoard(canvas)
         renderGameItems(canvas)
-        renderTouchAre(canvas)
+        renderBestPosition(canvas, bestPositionToUser)
+        drawFromTouchArea(canvas)
     }
 
-    private fun renderTouchAre(canvas: Canvas?) {
-        if (touchX != null && touchY != null) {
-            canvas?.apply {
-                val paintGreen = Paint()
-                paintGreen.color = Color.GREEN
-                paintGreen.strokeWidth = 10f
-                val radius = 20f
-                drawCircle(touchX!!, touchY!!, radius, paintGreen)
-            }
+    private fun renderBestPosition(canvas: Canvas?, gameViewPosition: GameViewPosition?) {
+        gameViewPosition?.apply {
+            val paint = Paint()
+            paint.color = Color.GREEN
+            paint.strokeWidth = 10f
+            drawCircleItemByPosition(canvas, paint, i, j)
         }
+    }
+
+    fun recommendBestPositionToUser(i: Int, j: Int) {
+        bestPositionToUser = GameViewPosition(i, j)
+        invalidate()
     }
 
     private fun renderGameItems(canvas: Canvas?) {
@@ -55,24 +61,34 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun renderPlayerChoiceByPosition(canvas: Canvas?, playerChoice: PlayerChoice, i: Int, j: Int) {
+        val paint = Paint()
+        paint.strokeWidth = 10f
+
+        if (playerChoice == PlayerChoice.x) {
+            paint.color = Color.RED
+        } else if (playerChoice == PlayerChoice.o) {
+            paint.color = Color.BLUE
+        }
+        drawCircleItemByPosition(canvas = canvas, paint = paint, i = i, j = j)
+    }
+
+    private fun drawCircleItemByPosition(canvas: Canvas?, paint: Paint, i: Int, j: Int, radius: Float = 20f) {
         val minMeasured = min(measuredWidth, measuredHeight)
         val positionY = ((minMeasured / 6) + ((minMeasured / 3) * i)).toFloat()
         val positionX = ((minMeasured / 6) + ((minMeasured / 3) * j)).toFloat()
 
-        if (playerChoice == PlayerChoice.x) {
-            val paintRed = Paint()
-            paintRed.color = Color.RED
+        canvas!!.drawCircle(positionX, positionY, radius, paint)
+    }
 
-            paintRed.strokeWidth = 10f
-            val radius = 20f
-            canvas!!.drawCircle(positionX, positionY, radius, paintRed)
-        } else if (playerChoice == PlayerChoice.o) {
-            val paintBlue = Paint()
-            paintBlue.color = Color.BLUE
-            paintBlue.strokeWidth = 10f
-
-            val radius = 20f
-            canvas!!.drawCircle(positionX, positionY, radius, paintBlue)
+    private fun drawFromTouchArea(canvas: Canvas?) {
+        if (touchX != null && touchY != null) {
+            canvas?.apply {
+                val paintGreen = Paint()
+                paintGreen.color = Color.MAGENTA
+                paintGreen.strokeWidth = 10f
+                val radius = 20f
+                drawCircle(touchX!!, touchY!!, radius, paintGreen)
+            }
         }
     }
 
@@ -106,4 +122,5 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         invalidate()
         return result
     }
+
 }

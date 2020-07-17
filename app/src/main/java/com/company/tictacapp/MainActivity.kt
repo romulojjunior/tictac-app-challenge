@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.company.tictacapp.common.analyzer.GameAnalyzer
 import com.company.tictacapp.common.helpers.ImageHelper
 import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.usecases.AnalyzeImageUserCase
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity() {
                 imageHelper.loadImage(uri);
                 val analyzeImageUserCase = AnalyzeImageUserCase()
                 val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
-                val gameAnalyzer = GameAnalyzer()
 
                 if (currentPlayerChoice == PlayerChoice.x) {
                     ticTocMapping.aiUserPlayer = PlayerChoice.x
@@ -98,12 +95,6 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     startActivity(GameActivity.newIntent(applicationContext, ticTocMapping))
                 }
-
-//                val result = gameAnalyzer.findBestPosition(ticTocMapping)
-//
-//                runOnUiThread {
-//                    Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()
-//                }
             }
         }
     }
