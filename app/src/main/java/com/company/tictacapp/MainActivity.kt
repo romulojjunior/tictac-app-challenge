@@ -13,6 +13,7 @@ import com.company.tictacapp.common.analyzer.GameAnalyzer
 import com.company.tictacapp.common.helpers.ImageHelper
 import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.usecases.AnalyzeImageUserCase
+import com.company.tictacapp.features.game.GameActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 
@@ -94,11 +95,15 @@ class MainActivity : AppCompatActivity() {
                     ticTocMapping.opponentPlayer = PlayerChoice.x
                 }
 
-                val result = gameAnalyzer.findBestPosition(ticTocMapping)
-
                 runOnUiThread {
-                    Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()
+                    startActivity(GameActivity.newIntent(applicationContext, ticTocMapping))
                 }
+
+//                val result = gameAnalyzer.findBestPosition(ticTocMapping)
+//
+//                runOnUiThread {
+//                    Toast.makeText(application, "Best position: (${result[0]}, ${result[1]})", Toast.LENGTH_LONG).show()
+//                }
             }
         }
     }

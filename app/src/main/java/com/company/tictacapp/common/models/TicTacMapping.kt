@@ -1,6 +1,8 @@
 package com.company.tictacapp.common.models
 
-class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListOf()) {
+import java.io.Serializable
+
+class TicTacMapping(var matrix: ArrayList<ArrayList<PlayerChoice?>> = arrayListOf()) : Serializable {
     var aiUserPlayer: PlayerChoice = PlayerChoice.x
     var opponentPlayer: PlayerChoice = PlayerChoice.o
 

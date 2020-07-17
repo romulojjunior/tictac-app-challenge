@@ -4,4 +4,5 @@
     <string name="select">Select</string>
     <string name="select_screenshot">Select screenshot</string>
     <string name="choose_your_player">Choose your player</string>
+    <string name="game">Game</string>
 </resources>
