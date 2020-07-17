@@ -46,7 +46,7 @@ class GameActivity : AppCompatActivity() {
     private fun loadGameView(tictacMapping: TicTacMapping) {
         gameView.initializerBoard(tictacMapping)
         gameView.onSelectedPosition = { position ->
-            Toast.makeText(application, "Selected position: (${position.i}, ${position.j})", Toast.LENGTH_LONG).show()
+            Toast.makeText(application, "Selected position: (${position.i}, ${position.j})", Toast.LENGTH_SHORT).show()
         }
     }
 

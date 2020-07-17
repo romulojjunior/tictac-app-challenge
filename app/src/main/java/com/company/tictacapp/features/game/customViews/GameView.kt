@@ -20,6 +20,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var bestPositionToUser: GameViewPosition? = null
 
     // Game callbacks
+
     var onSelectedPosition: (GameViewPosition) -> Unit = {}
 
     fun initializerBoard(ticTacMapping: TicTacMapping?) {
@@ -32,7 +33,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         renderBoard(canvas)
         renderGameItems(canvas)
         renderBestPosition(canvas, bestPositionToUser)
-        drawFromTouchArea(canvas)
+        renderTouchedArea(canvas)
     }
 
     private fun renderBestPosition(canvas: Canvas?, gameViewPosition: GameViewPosition?) {
@@ -41,7 +42,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             paint.color = Color.GREEN
             paint.strokeWidth = 10f
             drawCircleItemByPosition(canvas, paint, i, j)
-            onSelectedPosition(GameViewPosition(-1,-1))
         }
     }
 
@@ -84,8 +84,15 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         canvas!!.drawCircle(positionX, positionY, radius, paint)
     }
 
-    private fun drawFromTouchArea(canvas: Canvas?) {
+    private fun renderTouchedArea(canvas: Canvas?) {
+
         if (touchX != null && touchY != null) {
+            val gameViewPosition = mapTouchedAreaToGamePosition(touchX!!, touchY!!)
+
+            if (gameViewPosition != null) {
+                onSelectedPosition(gameViewPosition)
+            }
+
             canvas?.apply {
                 val paintGreen = Paint()
                 paintGreen.color = Color.MAGENTA
@@ -93,7 +100,37 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 val radius = 20f
                 drawCircle(touchX!!, touchY!!, radius, paintGreen)
             }
+
+            touchX = null
+            touchY = null
         }
+    }
+
+    private fun mapTouchedAreaToGamePosition(x: Float, y: Float) : GameViewPosition? {
+        val minMeasured = min(measuredWidth, measuredHeight)
+
+        if (x > minMeasured || y > minMeasured) {
+            return null
+        }
+
+        val squareUnit = (minMeasured / 3).toFloat()
+        val cornerX: Float = squareUnit
+        val cornerY: Float = squareUnit
+
+        for (indexJ in 1..3) {
+            for (indexI in 1..3) {
+                val positionX = indexI -1
+                val positionY = indexJ -1
+                val fullCornerX = (cornerX * indexJ)
+                val fullCornerY = (cornerY * indexI)
+
+                if (fullCornerX >= x && fullCornerY >= y) {
+                    return GameViewPosition(positionX, positionY)
+                }
+            }
+        }
+
+        return null
     }
 
     private fun renderBoard(canvas: Canvas?) {
@@ -121,9 +158,17 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val result =  super.onTouchEvent(event)
-        touchX = event?.x
-        touchY = event?.y
-        invalidate()
+        event?.apply {
+            // Validate game board area
+            val minMeasured = min(measuredWidth, measuredHeight)
+            if (minMeasured > event.x && minMeasured > event.y) {
+                touchX = event.x
+                touchY = event.y
+            }
+
+            invalidate()
+        }
+
         return result
     }
 
