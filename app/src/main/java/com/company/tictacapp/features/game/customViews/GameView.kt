@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.models.TicTacMapping
@@ -12,6 +13,8 @@ import kotlin.math.min
 
 class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var ticTacMapping: TicTacMapping? = null
+    private var touchX: Float? = null
+    private var touchY: Float? = null
 
     fun initializerBoard(ticTacMapping: TicTacMapping?) {
         this.ticTacMapping = ticTacMapping
@@ -22,6 +25,19 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         super.onDraw(canvas)
         renderBoard(canvas)
         renderGameItems(canvas)
+        renderTouchAre(canvas)
+    }
+
+    private fun renderTouchAre(canvas: Canvas?) {
+        if (touchX != null && touchY != null) {
+            canvas?.apply {
+                val paintGreen = Paint()
+                paintGreen.color = Color.GREEN
+                paintGreen.strokeWidth = 10f
+                val radius = 20f
+                drawCircle(touchX!!, touchY!!, radius, paintGreen)
+            }
+        }
     }
 
     private fun renderGameItems(canvas: Canvas?) {
@@ -81,5 +97,13 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val position = rowHeight * index
             canvas?.drawLine(0f, position, rowWith, position, paint)
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        val result =  super.onTouchEvent(event)
+        touchX = event?.x
+        touchY = event?.y
+        invalidate()
+        return result
     }
 }
