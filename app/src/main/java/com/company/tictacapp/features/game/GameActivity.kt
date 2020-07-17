@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.company.tictacapp.R
 import com.company.tictacapp.common.models.TicTacMapping
+import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
     lateinit var tictacMapping: TicTacMapping
@@ -24,7 +25,8 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         loadParams()
-        println(tictacMapping)
+
+        gameView.initializerBoard(tictacMapping)
     }
 
     private fun loadParams() {
