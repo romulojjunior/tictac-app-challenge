@@ -13,7 +13,7 @@ obs. The green circle is the recommend position to best opition.
 
 
 # TODO
- - Disable position alredy used.
+ - Disable position already used.
  - Improve recommendation performace.
 
 ---
