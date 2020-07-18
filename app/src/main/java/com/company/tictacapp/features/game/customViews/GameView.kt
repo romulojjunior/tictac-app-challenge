@@ -31,17 +31,21 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         renderBoard(canvas)
-        renderGameItems(canvas)
         renderBestPosition(canvas, bestPositionToUser)
+        renderGameItems(canvas)
         renderTouchedArea(canvas)
     }
 
     private fun renderBestPosition(canvas: Canvas?, gameViewPosition: GameViewPosition?) {
-        gameViewPosition?.apply {
-            val paint = Paint()
-            paint.color = Color.GREEN
-            paint.strokeWidth = 10f
-            drawCircleItemByPosition(canvas, paint, i, j)
+        ticTacMapping?.let {
+            if (it.currentPlayer == it.aiUserPlayer) {
+                gameViewPosition?.apply {
+                    val paint = Paint()
+                    paint.color = Color.GREEN
+                    paint.strokeWidth = 10f
+                    drawCircleItemByPosition(canvas, paint, i, j)
+                }
+            }
         }
     }
 
@@ -85,7 +89,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun renderTouchedArea(canvas: Canvas?) {
-
         if (touchX != null && touchY != null) {
             mapTouchedAreaToGamePosition(touchX!!, touchY!!)?.let { position ->
                 ticTacMapping?.let { ticTacMapping ->

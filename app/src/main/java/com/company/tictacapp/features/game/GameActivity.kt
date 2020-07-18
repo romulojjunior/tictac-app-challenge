@@ -95,6 +95,10 @@ class GameActivity : AppCompatActivity() {
                     }
                 }
 
+                if (tictacMapping.currentPlayer != tictacMapping.aiUserPlayer) {
+                    return@async
+                }
+
                 val gameAnalyzer = GameAnalyzer()
                 val result = gameAnalyzer.findBestPosition(tictacMapping)
                 runOnUiThread {
