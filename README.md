@@ -17,4 +17,4 @@ obs. The green circle is the recommend position to best opition.
  - Improve recommendation performace.
 
 ---
- ![](appdemo.gif)
+ <img src="https://github.com/romulojjunior/tictacapp/raw/feature/readme/appdemo.gif" width="400"/>
