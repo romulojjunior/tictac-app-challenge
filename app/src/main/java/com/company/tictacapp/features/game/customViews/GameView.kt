@@ -36,6 +36,11 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         renderTouchedArea(canvas)
     }
 
+    fun recommendBestPositionToUser(i: Int, j: Int) {
+        bestPositionToUser = GameViewPosition(i, j)
+        invalidate()
+    }
+
     private fun renderBestPosition(canvas: Canvas?, gameViewPosition: GameViewPosition?) {
         ticTacMapping?.let {
             if (it.currentPlayer == it.aiUserPlayer) {
@@ -47,11 +52,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 }
             }
         }
-    }
-
-    fun recommendBestPositionToUser(i: Int, j: Int) {
-        bestPositionToUser = GameViewPosition(i, j)
-        invalidate()
     }
 
     private fun renderGameItems(canvas: Canvas?) {
@@ -80,14 +80,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         drawCircleItemByPosition(canvas = canvas, paint = paint, i = i, j = j)
     }
 
-    private fun drawCircleItemByPosition(canvas: Canvas?, paint: Paint, i: Int, j: Int, radius: Float = 20f) {
-        val minMeasured = min(measuredWidth, measuredHeight)
-        val positionY = ((minMeasured / 6) + ((minMeasured / 3) * i)).toFloat()
-        val positionX = ((minMeasured / 6) + ((minMeasured / 3) * j)).toFloat()
-
-        canvas!!.drawCircle(positionX, positionY, radius, paint)
-    }
-
     private fun renderTouchedArea(canvas: Canvas?) {
         if (touchX != null && touchY != null) {
             mapTouchedAreaToGamePosition(touchX!!, touchY!!)?.let { position ->
@@ -104,6 +96,37 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             touchY = null
             invalidate()
         }
+    }
+
+    private fun renderBoard(canvas: Canvas?) {
+        val minMeasured = min(measuredWidth, measuredHeight)
+        val paint = Paint()
+        paint.color = Color.BLACK
+        paint.strokeWidth = 10f
+
+        val columnWith: Float = (minMeasured / 3).toFloat()
+        val columnHeight: Float = (minMeasured).toFloat()
+
+        val rowWith: Float = (minMeasured).toFloat()
+        val rowHeight: Float = (minMeasured / 3).toFloat()
+
+        (0..3).forEach { index ->
+            val position = columnWith * index
+            canvas?.drawLine(position,0f, position, columnHeight, paint)
+        }
+
+        (0..3).forEach { index ->
+            val position = rowHeight * index
+            canvas?.drawLine(0f, position, rowWith, position, paint)
+        }
+    }
+
+    private fun drawCircleItemByPosition(canvas: Canvas?, paint: Paint, i: Int, j: Int, radius: Float = 20f) {
+        val minMeasured = min(measuredWidth, measuredHeight)
+        val positionY = ((minMeasured / 6) + ((minMeasured / 3) * i)).toFloat()
+        val positionX = ((minMeasured / 6) + ((minMeasured / 3) * j)).toFloat()
+
+        canvas!!.drawCircle(positionX, positionY, radius, paint)
     }
 
     private fun mapTouchedAreaToGamePosition(x: Float, y: Float) : GameViewPosition? {
@@ -131,29 +154,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
 
         return null
-    }
-
-    private fun renderBoard(canvas: Canvas?) {
-        val minMeasured = min(measuredWidth, measuredHeight)
-        val paint = Paint()
-        paint.color = Color.BLACK
-        paint.strokeWidth = 10f
-
-        val columnWith: Float = (minMeasured / 3).toFloat()
-        val columnHeight: Float = (minMeasured).toFloat()
-
-        val rowWith: Float = (minMeasured).toFloat()
-        val rowHeight: Float = (minMeasured / 3).toFloat()
-
-        (0..3).forEach { index ->
-            val position = columnWith * index
-            canvas?.drawLine(position,0f, position, columnHeight, paint)
-        }
-
-        (0..3).forEach { index ->
-            val position = rowHeight * index
-            canvas?.drawLine(0f, position, rowWith, position, paint)
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
