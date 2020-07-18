@@ -1,13 +1,7 @@
 package com.company.tictacapp.common.analyzer
 
 import com.company.tictacapp.common.algorithms.minMaxAlgorithm
-import com.company.tictacapp.common.models.PlayerChoice
 import com.company.tictacapp.common.models.TicTacMapping
-import kotlin.math.max
-
-// PlayerChoice.x = 10
-// PlayerChoice.o = -10
-// Tie = 0
 
 class GameAnalyzer {
 

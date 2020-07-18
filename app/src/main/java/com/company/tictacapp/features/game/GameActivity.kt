@@ -80,12 +80,9 @@ class GameActivity : AppCompatActivity() {
             playerTurnTextView.text = ("Blue round (o)")
             playerTurnTextView.setTextColor(Color.BLUE)
         }
-
     }
 
     private fun analyzeGame(tictacMapping: TicTacMapping) {
-
-
         GlobalScope.launch(Dispatchers.IO) {
             async {
                 val winner = tictacMapping.checkWinner()
