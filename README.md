@@ -17,4 +17,4 @@ obs. The green circle is the recommend position to best opition.
  - Improve recommendation performace.
 
 ---
- ![](appdemo.gif =700x)
+ ![](./appdemo.gif =700x)
