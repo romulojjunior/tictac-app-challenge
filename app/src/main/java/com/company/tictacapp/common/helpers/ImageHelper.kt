@@ -27,7 +27,7 @@ class ImageHelper(private var application: Application) {
             )
             else -> {
                 val source = ImageDecoder.createSource(application.contentResolver, fileUri)
-                ImageDecoder.decodeBitmap(source)
+                ImageDecoder.decodeBitmap(source).copy(Bitmap.Config.RGBA_F16, true)
             }
         }
     }
