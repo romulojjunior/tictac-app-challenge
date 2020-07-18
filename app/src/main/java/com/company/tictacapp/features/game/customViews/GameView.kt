@@ -18,6 +18,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var touchX: Float? = null
     private var touchY: Float? = null
     private var bestPositionToUser: GameViewPosition? = null
+    private var bannerCount = 0
 
     // Game callbacks
 
@@ -34,6 +35,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         renderBestPosition(canvas, bestPositionToUser)
         renderGameItems(canvas)
         renderTouchedArea(canvas)
+        renderBanner(canvas)
     }
 
     fun recommendBestPositionToUser(i: Int, j: Int) {
@@ -118,6 +120,18 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         (0..3).forEach { index ->
             val position = rowHeight * index
             canvas?.drawLine(0f, position, rowWith, position, paint)
+        }
+    }
+
+    private fun renderBanner(canvas: Canvas?) {
+        bannerCount++
+        val bannerX = 0
+        val bannerY = min(measuredWidth, measuredHeight) + 100
+        val paint = Paint()
+        paint.textSize = 100f
+        paint.color = Color.MAGENTA
+        canvas?.apply {
+            drawText("Banner # $bannerCount", bannerX.toFloat(), bannerY.toFloat(), paint)
         }
     }
 
