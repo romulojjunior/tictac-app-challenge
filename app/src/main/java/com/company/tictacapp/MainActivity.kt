@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.company.tictacapp.common.helpers.ImageHelper
 import com.company.tictacapp.common.models.PlayerChoice
@@ -81,6 +82,12 @@ class MainActivity : AppCompatActivity() {
             async {
                 val imageHelper = ImageHelper(application)
                 imageHelper.loadImage(uri);
+
+                if (!imageHelper.isImageValid()) {
+                    showUserMessage("Invalid image. Use ${imageHelper.imageWight}x${imageHelper.imageHeight}")
+                    return@async
+                }
+
                 val analyzeImageUserCase = AnalyzeImageUserCase()
                 val ticTocMapping = analyzeImageUserCase.execute(imageHelper.toBitmapImage())
 
@@ -98,6 +105,12 @@ class MainActivity : AppCompatActivity() {
                     startActivity(GameActivity.newIntent(applicationContext, ticTocMapping))
                 }
             }
+        }
+    }
+
+    private fun showUserMessage(value: String) {
+        runOnUiThread {
+            Toast.makeText(applicationContext, value, Toast.LENGTH_SHORT).show()
         }
     }
 

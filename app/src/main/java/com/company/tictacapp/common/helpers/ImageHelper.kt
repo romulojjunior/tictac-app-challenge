@@ -11,6 +11,8 @@ import com.company.tictacapp.common.models.BitmapImage
 
 class ImageHelper(private var application: Application) {
     private var bitmap: Bitmap? = null
+    val imageWight = 600
+    val imageHeight = 750
 
     fun loadImage(fileUri: Uri) {
         bitmap = getBitmapImage(fileUri)
@@ -28,6 +30,18 @@ class ImageHelper(private var application: Application) {
                 ImageDecoder.decodeBitmap(source)
             }
         }
+    }
+
+    fun isImageValid() : Boolean {
+        if (bitmap == null) {
+            return false
+        }
+
+        val result =  bitmap?.let {
+            return it.width == imageWight && it.height == imageHeight
+        }
+
+        return result ?: false
     }
 
     fun toBitmapImage() : BitmapImage {
